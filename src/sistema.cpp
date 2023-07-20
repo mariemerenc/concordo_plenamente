@@ -66,6 +66,7 @@ std::string Sistema::get_usuario_cadastrado(int id_usuario){
             return vec_usuarios_cadastrados[i].get_nome();
         }
     }
+    return "";
 }
 
 
@@ -133,7 +134,7 @@ std::string Sistema::criar_usuario(const std::string email, const std::string se
         }
     }
 
-    if(get_usuarios == 0){
+    if(get_usuarios() == 0){
         set_ultimo_id_gerado(0);
     }
 
@@ -159,7 +160,7 @@ std::string Sistema::criar_servidor(std::string nome){
         }
     }
 
-    if(get_servidores == 0){
+    if(get_servidores() == 0){
         set_ultimo_id_gerado(0);
     }
 
@@ -246,7 +247,7 @@ std::string Sistema::listar_participantes(){
     for(auto i{0}; i < get_servidores(); i++){
         if(vec_servidores_cadastrados[i].get_nome() == servidor_atual){
             std::string lista = "";
-            for(auto j{0}; j < vec_servidores_cadastrados[i].get_vec_usuarios_ids(); j++){
+            for(auto j{0}; j < vec_servidores_cadastrados[i].get_vec_usuarios_ids().size(); j++){
                 for(auto k{0}; k < get_usuarios(); k++){
                     if(vec_usuarios_cadastrados[k].get_id() == vec_servidores_cadastrados[i].get_vec_usuarios_ids()[j]){
                         if(k == get_usuarios() - 1){
@@ -385,7 +386,7 @@ std::string Sistema::listar_mensagens(){
             for(auto j{0}; j < vec_servidores_cadastrados[i].get_vec_canais_size(); j++){
                 if(vec_servidores_cadastrados[i].get_vec_canais_voz()[j].get_nome() == canal_atual){
                     std::string lista = "";
-                    lista += vec_servidores_cadastrados[i].get_vec_canais_voz()[j].get_ultima_mensagem().get_autor_id() + "\n";
+                    lista += vec_servidores_cadastrados[i].get_vec_canais_voz()[j].get_ultima_mensagem().get_id_dono_servidor() + "\n";
                     if(lista == "" || lista == ": ")
                         return "Não há mensagens";
 
@@ -396,10 +397,10 @@ std::string Sistema::listar_mensagens(){
                     std::string lista = "";
                     for(auto k{0}; k < vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens_size(); k++){
                         if(k == vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens_size() - 1){
-                            lista += vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_autor_id() + ": " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_data_hora() + " " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_conteudo();
+                            lista += vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_id_dono_servidor() + ": " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_data_hora() + " " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_conteudo();
                             break;
                         }
-                        lista += vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_autor_id() + ": " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_data_hora() + " " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_conteudo() + "\n";
+                        lista += vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_id_dono_servidor() + ": " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_data_hora() + " " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_conteudo() + "\n";
                         
                     }
                     if(lista == "" || lista == ": ")
@@ -533,5 +534,66 @@ void Sistema::carregar_servidores(){
 void Sistema::carregar(){
     carregar_usuarios();
     carregar_servidores();
+}
+
+void Sistema::salvar(){
+    salvar_usuarios();
+    salvar_servidores();
+}
+
+void Sistema::salvar_usuarios(){
+    std::ofstream arquivo_usuarios;
+    arquivo_usuarios.open("usuarios.txt");
+    arquivo_usuarios << get_usuarios() << std::endl;
+    for(auto i{0}; i < get_usuarios(); i++){
+        arquivo_usuarios << vec_usuarios_cadastrados[i].get_id() << std::endl;
+        arquivo_usuarios << vec_usuarios_cadastrados[i].get_nome() << std::endl;
+        arquivo_usuarios << vec_usuarios_cadastrados[i].get_email() << std::endl;
+        arquivo_usuarios << vec_usuarios_cadastrados[i].get_senha() << std::endl;
+    }
+    arquivo_usuarios.close();
+}
+
+void Sistema::salvar_servidores(){
+    std::ofstream arquivo_servidores;
+    arquivo_servidores.open("servidores.txt");
+    arquivo_servidores << get_servidores() << std::endl;
+
+    for(auto i{0}; i< get_servidores(); i++){
+        arquivo_servidores << vec_servidores_cadastrados[i].get_id_dono_servidor() << std::endl;
+        arquivo_servidores << vec_servidores_cadastrados[i].get_nome() << std::endl;
+        arquivo_servidores << vec_servidores_cadastrados[i].get_descricao() << std::endl;
+        arquivo_servidores << vec_servidores_cadastrados[i].get_codigo_convite() << std::endl;
+        arquivo_servidores << vec_servidores_cadastrados[i].get_vec_usuarios_id().size() << std::endl;
+
+        for(auto j{0}; j< vec_servidores_cadastrados[i].get_vec_usuarios_id(); j++){
+            arquivo_servidores << vec_servidores_cadastrados[i].get_vec_usuarios_id()[j] << std::endl;
+        }
+
+        int canais = vec_servidores_cadastrados.get_vec_canais_texto_size() + vec_servidores_cadastrados.get_vec_canais_voz_size();
+        arquivo_servidores << canais << std::endl;
+
+        for(auto j{0}; j< vec_servidores_cadastrados[i].get_vec_canais_texto_size(); j++){
+            arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_nome() << std::endl;  
+            arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_tipo() << std::endl;
+            arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens().size() << std::endl;
+
+            for(auto k{0}; k< vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens().size(); k++){
+                arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_texto()[j].vec_mensagens()[k].get_autor_id() << std::endl;
+                arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_data_hora() << std::endl;
+                arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_conteudo() << std::endl;
+            }
+        }
+
+        for(auto j{0}; j < vec_servidores_cadastrados[i].get_vec_canais_voz_size(); j++){
+            arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_voz()[j].get_nome() << std::endl;
+            arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_voz()[j].get_tipo() << std::endl;
+            arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_voz()[j].get_ultima_mensagem().get_autor_id() << std::endl;
+            arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_voz()[j].get_ultima_mensagem().get_data_hora() << std::endl;
+            arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_voz()[j].get_ultima_mensagem().get_conteudo() << std::endl;
+        }
+    }
+
+    arquivo_servidores.close();
 }
 
