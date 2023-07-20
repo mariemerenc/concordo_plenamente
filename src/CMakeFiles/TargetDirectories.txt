@@ -1,0 +1,3 @@
+/home/mariemerenc/concordo_plenamente-main/src/CMakeFiles/program.dir
+/home/mariemerenc/concordo_plenamente-main/src/CMakeFiles/edit_cache.dir
+/home/mariemerenc/concordo_plenamente-main/src/CMakeFiles/rebuild_cache.dir

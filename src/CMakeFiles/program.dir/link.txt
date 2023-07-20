@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/program.dir/channel.cpp.o CMakeFiles/program.dir/chtext.cpp.o CMakeFiles/program.dir/chvoice.cpp.o CMakeFiles/program.dir/concordo.cpp.o CMakeFiles/program.dir/exec.cpp.o CMakeFiles/program.dir/message.cpp.o CMakeFiles/program.dir/server.cpp.o CMakeFiles/program.dir/system.cpp.o CMakeFiles/program.dir/user.cpp.o -o program 
