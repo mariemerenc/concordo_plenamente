@@ -47,14 +47,15 @@ class Servidor{
 
     void set_vec_canais_texto(std::vector<CanalTexto> vec_canais_texto); // Seta o vetor de canais de texto do servidor
     std::vector<CanalTexto> get_vec_canais_texto(); // Retorna o vetor de canais de texto do servidor
-    int get_vec_canais_texto_size();
+    int get_vec_canais_texto_size(); //{return vec_canais_texto.size();}
 
     void set_vec_canais_voz(std::vector<CanalVoz> vec_canais_voz); // Seta o vetor de canais de voz do servidor
     std::vector<CanalVoz> get_vec_canais_voz(); // Retorna o vetor de canais de voz do servidor
-    int get_vec_canais_voz_size();
+    int get_vec_canais_voz_size(); //{return vec_canais_voz.size();}
 
     void set_vec_usuarios_ids(std::vector<int> vec_usuarios_ids); // Seta o vetor de IDs dos usuários que participam do servidor
     std::vector<int> get_vec_usuarios_ids(); // Retorna o vetor de IDs dos usuários que participam do servidor
+    int get_vec_usuarios_ids_size(){return vec_usuarios_ids.size();}
 
     void adicionar_participante(int id_usuario); // Adiciona um participante ao servidor
     void criar_canal_texto(CanalTexto canaltxt); // Cria um canal de texto no servidor

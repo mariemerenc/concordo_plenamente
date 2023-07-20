@@ -16,7 +16,7 @@
  * 
  */
 void Sistema::acrescentar_id(){
-    this->ultimo_id_gerado++;
+    ultimo_id_gerado++;
 }
 
 /**
@@ -34,7 +34,7 @@ void Sistema::set_ultimo_id_gerado(int ultimo_id_gerado){
  * @return int 
  */
 int Sistema::get_ultimo_id_gerado(){
-    return this->ultimo_id_gerado;
+    return ultimo_id_gerado;
 }
 
 /**
@@ -92,15 +92,15 @@ std::string Sistema::sair(){
 
  
 std::string Sistema::login(std::string email, std::string senha){
-    if(this->usuario_logado_id != -1){
+    if(usuario_logado_id != -1){
         return "Usuário já está logado";
     }
     
     for(auto i{0}; i < get_usuarios(); i++){
         if(vec_usuarios_cadastrados[i].get_email() == email){
             if(vec_usuarios_cadastrados[i].get_senha() == senha){
-                this->usuario_logado_id = vec_usuarios_cadastrados[i].get_id();
-                return "Logado como " + vec_usuarios_cadastrados[i].get_nome();
+                usuario_logado_id = vec_usuarios_cadastrados[i].get_id();
+                return "Logado como " + vec_usuarios_cadastrados[i].get_email();
             }
             else{
                 return "Senha incorreta";
@@ -386,7 +386,7 @@ std::string Sistema::listar_mensagens(){
             for(auto j{0}; j < vec_servidores_cadastrados[i].get_vec_canais_size(); j++){
                 if(vec_servidores_cadastrados[i].get_vec_canais_voz()[j].get_nome() == canal_atual){
                     std::string lista = "";
-                    lista += vec_servidores_cadastrados[i].get_vec_canais_voz()[j].get_ultima_mensagem().get_id_dono_servidor() + "\n";
+                    lista += vec_servidores_cadastrados[i].get_vec_canais_voz()[j].get_ultima_mensagem().get_autor_id() + "\n";
                     if(lista == "" || lista == ": ")
                         return "Não há mensagens";
 
@@ -397,10 +397,10 @@ std::string Sistema::listar_mensagens(){
                     std::string lista = "";
                     for(auto k{0}; k < vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens_size(); k++){
                         if(k == vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens_size() - 1){
-                            lista += vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_id_dono_servidor() + ": " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_data_hora() + " " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_conteudo();
+                            lista += vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_autor_id() + ": " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_data_hora() + " " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_conteudo();
                             break;
                         }
-                        lista += vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_id_dono_servidor() + ": " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_data_hora() + " " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_conteudo() + "\n";
+                        lista += vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_autor_id() + ": " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_data_hora() + " " + vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_conteudo() + "\n";
                         
                     }
                     if(lista == "" || lista == ": ")
@@ -564,13 +564,13 @@ void Sistema::salvar_servidores(){
         arquivo_servidores << vec_servidores_cadastrados[i].get_nome() << std::endl;
         arquivo_servidores << vec_servidores_cadastrados[i].get_descricao() << std::endl;
         arquivo_servidores << vec_servidores_cadastrados[i].get_codigo_convite() << std::endl;
-        arquivo_servidores << vec_servidores_cadastrados[i].get_vec_usuarios_id().size() << std::endl;
+        arquivo_servidores << vec_servidores_cadastrados[i].get_vec_usuarios_ids().size() << std::endl;
 
-        for(auto j{0}; j< vec_servidores_cadastrados[i].get_vec_usuarios_id(); j++){
-            arquivo_servidores << vec_servidores_cadastrados[i].get_vec_usuarios_id()[j] << std::endl;
+        for(auto j{0}; j < vec_servidores_cadastrados[i].get_vec_usuarios_ids_size(); j++){
+            arquivo_servidores << vec_servidores_cadastrados[i].get_vec_usuarios_ids()[j] << std::endl;
         }
 
-        int canais = vec_servidores_cadastrados.get_vec_canais_texto_size() + vec_servidores_cadastrados.get_vec_canais_voz_size();
+        int canais = vec_servidores_cadastrados[i].get_vec_canais_texto_size() + vec_servidores_cadastrados[i].get_vec_canais_voz_size();
         arquivo_servidores << canais << std::endl;
 
         for(auto j{0}; j< vec_servidores_cadastrados[i].get_vec_canais_texto_size(); j++){
@@ -579,7 +579,7 @@ void Sistema::salvar_servidores(){
             arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens().size() << std::endl;
 
             for(auto k{0}; k< vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens().size(); k++){
-                arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_texto()[j].vec_mensagens()[k].get_autor_id() << std::endl;
+                arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_autor_id() << std::endl;
                 arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_data_hora() << std::endl;
                 arquivo_servidores << vec_servidores_cadastrados[i].get_vec_canais_texto()[j].get_mensagens()[k].get_conteudo() << std::endl;
             }
@@ -597,3 +597,39 @@ void Sistema::salvar_servidores(){
     arquivo_servidores.close();
 }
 
+
+std::string Sistema::listar_servidores(){
+    verificar_login(usuario_logado_id);
+    std::string lista = "";
+
+    for(auto i{0}; i < get_servidores(); i++){
+        if(i == get_servidores() - 1){
+            lista += vec_servidores_cadastrados[i].get_nome();
+            return lista;
+        }
+        lista += vec_servidores_cadastrados[i].get_nome() + "\n";
+    }
+
+    return lista;
+
+}
+
+std::string Sistema::remover_servidor(std::string nome){
+    verificar_login(usuario_logado_id);
+    
+    for(auto i{0}; i < get_servidores(); i++){
+        if(vec_servidores_cadastrados[i].get_nome() == nome){
+            if(vec_servidores_cadastrados[i].get_id_dono_servidor() == usuario_logado_id){
+                vec_servidores_cadastrados.erase(vec_servidores_cadastrados.begin() + i);
+                servidor_atual = "";
+                salvar();
+                return "Servidor " + nome + " removido!";
+            }
+            else{
+                return "Você não é dono desse servidor";
+            }
+        }
+    }
+    
+    return "Servidor não existe";
+}

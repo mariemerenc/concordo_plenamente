@@ -1,0 +1,39 @@
+\hypertarget{classCanal}{}\doxysection{Canal Class Reference}
+\label{classCanal}\index{Canal@{Canal}}
+
+
+Inheritance diagram for Canal\+:
+% FIG 0
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classCanal_afeae7b3dd6f991ee1cf1337b4c2c1d38}\label{classCanal_afeae7b3dd6f991ee1cf1337b4c2c1d38}} 
+{\bfseries Canal} (std\+::string c)
+\item 
+\mbox{\Hypertarget{classCanal_a4ec2f741ef9d6dc2b3da3f5e4a7c17b9}\label{classCanal_a4ec2f741ef9d6dc2b3da3f5e4a7c17b9}} 
+void {\bfseries set\+Nome} (std\+::string n)
+\item 
+\mbox{\Hypertarget{classCanal_ac1b8ce05d8102f8b5f6a9b468336b9b7}\label{classCanal_ac1b8ce05d8102f8b5f6a9b468336b9b7}} 
+std\+::string {\bfseries get\+Nome} ()
+\item 
+\mbox{\Hypertarget{classCanal_a0753662c25708e9bd6d868c0415562be}\label{classCanal_a0753662c25708e9bd6d868c0415562be}} 
+void {\bfseries set\+Servidor} (std\+::string s)
+\item 
+\mbox{\Hypertarget{classCanal_a0649e5d3968d052a7e741d9528993352}\label{classCanal_a0649e5d3968d052a7e741d9528993352}} 
+std\+::string {\bfseries get\+Servidor} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classCanal_ac5e6d80712597bacacd46c0d153c2644}\label{classCanal_ac5e6d80712597bacacd46c0d153c2644}} 
+std\+::string {\bfseries nome}
+\item 
+\mbox{\Hypertarget{classCanal_a549a42fea19077e691e33f725e25ed4c}\label{classCanal_a549a42fea19077e691e33f725e25ed4c}} 
+std\+::string {\bfseries servidor}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/channel.\+h\item 
+source/channel.\+cpp\end{DoxyCompactItemize}
